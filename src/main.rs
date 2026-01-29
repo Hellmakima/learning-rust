@@ -1,34 +1,36 @@
-use colored::*;
-use rand::Rng;
-use std::cmp::Ordering;
-use std::io;
+struct User {
+    username: String,
+    email: String,
+    sign_in_count: u64,
+    active: bool,
+}
 
 fn main() {
-    let target = rand::thread_rng().gen_range(0, 100);
-    println!("Target is {}", target.to_string().blue());
-    println!("Hi, enter a number");
+    let mut user1 = User {
+        username: String::from("sufiyanattar"),
+        email: String::from("sufiyanhattar@gmail.com"),
+        sign_in_count: 1,
+        active: true,
+    };
 
-    loop {
-        let mut guess = String::new();
+    let name = user1.username;
 
-        io::stdin()
-            .read_line(&mut guess)
-            .expect("Failed to read number");
+    user1.username = String::from("hellmakima");
+    let user2 = build_user(String::from("zenintoji"), String::from("toji@zenin.clan"));
+    
+    let user3 = User {
+        username: String::from("RyoumenSukuna"),
+        email: String::from("ryoumensukuna@heien.era"),
+        ..user2
+    };
+}
 
-        let guess: u32 = match guess.trim().parse() {
-            Ok(num) => num,
-            Err(_) => {
-                println!("{}", "Not a valid number, Try again!".red());
-                continue;
-            }
-        };
-        match guess.cmp(&target) {
-            Ordering::Less => println!("{}", "Chiisai".red()),
-            Ordering::Greater => println!("{}", "Oo sugi".red()),
-            Ordering::Equal => {
-                println!("{}", "Katta!".green());
-                break;
-            }
-        };
+fn build_user(username: String, email: String) -> User {
+    User {
+        // username: username, // or that, coz same name
+        username,
+        email,
+        sign_in_count: 1,
+        active: true,
     }
 }
